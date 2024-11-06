@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .cart-section {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background: white;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-width: 300px;
+        }
+
+        .search-section {
+            margin-bottom: 2rem;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        input, select {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        #checkout-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>Online Shopping System</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="search-section">
+            <input type="text" id="search-input" placeholder="Search products...">
+            <select id="category-filter">
+                <option value="all">All Categories</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Books">Books</option>
+            </select>
+            <button onclick="filterProducts()">Filter</button>
+        </div>
+
+        <div class="product-grid" id="product-grid"></div>
+
+        <div class="cart-section">
+            <h2>Shopping Cart</h2>
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
+            <button onclick="showCheckout()">Checkout</button>
+        </div>
+    </div>
+
+    <div id="checkout-modal">
+        <h2>Checkout</h2>
+        <div id="order-summary"></div>
+        <h3>Payment Method</h3>
+        <select id="payment-method">
+            <option value="credit-card">Credit Card</option>
+            <option value="cash">Cash on Delivery</option>
+        </select>
+        <button onclick="processOrder()">Place Order</button>
+        <button onclick="closeCheckout()">Cancel</button>
+    </div>
+
+    <div class="modal-backdrop" onclick="closeCheckout()"></div>
+
+    <script>
+        // Base Product class
+        class Product {
+            constructor(id, name, price, category) {
+                this.id = id;
+                this.name = name;
+                this.price = price;
+                this.category = category;
+            }
+
+            calculateDiscount() {
+                return 0;
+            }
+        }
+
+        // Derived product classes
+        class Electronics extends Product {
+            calculateDiscount() {
+                return this.price * 0.1; // 10% discount
+            }
+        }
+
+        class Clothing extends Product {
+            calculateDiscount() {
+                return this.price * 0.15; // 15% discount
+            }
+        }
+
+        class Books extends Product {
+            calculateDiscount() {
+                return this.price * 0.05; // 5% discount
+            }
+        }
+
+        // Cart class
+        class Cart {
+            constructor() {
+                this.items = [];
+            }
+
+            addItem(product) {
+                this.items.push(product);
+                this.updateCart();
+            }
+
+            removeItem(productId) {
+                this.items = this.items.filter(item => item.id !== productId);
+                this.updateCart();
+            }
+
+            getTotal() {
+                return this.items.reduce((total, item) => {
+                    return total + (item.price - item.calculateDiscount());
+                }, 0);
+            }
+
+            updateCart() {
+                const cartElement = document.getElementById('cart-items');
+                const totalElement = document.getElementById('cart-total');
+                
+                cartElement.innerHTML = this.items.map(item => `
+                    <div class="cart-item">
+                        <span>${item.name}</span>
+                        <span>$${(item.price - item.calculateDiscount()).toFixed(2)}</span>
+                        <button onclick="cart.removeItem(${item.id})">Remove</button>
+                    </div>
+                `).join('');
+                
+                totalElement.innerHTML = `<h3>Total: $${this.getTotal().toFixed(2)}</h3>`;
+            }
+        }
+
+        // Customer class
+        class Customer {
+            constructor(name, email) {
+                this.name = name;
+                this.email = email;
+                this.orders = [];
+            }
+        }
+
+        // Order class
+        class Order {
+            constructor(customer, items, total, paymentMethod) {
+                this.customer = customer;
+                this.items = items;
+                this.total = total;
+                this.paymentMethod = paymentMethod;
+                this.date = new Date();
+                this.status = 'pending';
+            }
+
+            processPayment() {
+                // Simulate payment processing
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        this.status = 'completed';
+                        resolve(true);
+                    }, 1000);
+                });
+            }
+        }
+
+        // Initialize products
+        const products = [
+            new Electronics(1, "Smartphone", 699.99, "Electronics"),
+            new Electronics(2, "Laptop", 999.99, "Electronics"),
+            new Clothing(3, "T-Shirt", 29.99, "Clothing"),
+            new Clothing(4, "Jeans", 59.99, "Clothing"),
+            new Books(5, "Novel", 19.99, "Books"),
+            new Books(6, "Textbook", 89.99, "Books")
+        ];
+
+        // Initialize cart
+        const cart = new Cart();
+
+        // Initialize customer (in a real app, this would come from login)
+        const customer = new Customer("John Doe", "john@example.com");
+
+        // Display products
+        function displayProducts(productsToShow = products) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = productsToShow.map(product => `
+                <div class="product-card">
+                    <h3>${product.name}</h3>
+                    <p>Category: ${product.category}</p>
+                    <p>Price: $${product.price}</p>
+                    <p>Discount: $${product.calculateDiscount().toFixed(2)}</p>
+                    <p>Final Price: $${(product.price - product.calculateDiscount()).toFixed(2)}</p>
+                    <button onclick="cart.addItem(products.find(p => p.id === ${product.id}))">
+                        Add to Cart
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Filter products
+        function filterProducts() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const category = document.getElementById('category-filter').value;
+
+            let filtered = products;
+
+            if (category !== 'all') {
+                filtered = filtered.filter(product => product.category === category);
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            displayProducts(filtered);
+        }
+
+        // Checkout functions
+        function showCheckout() {
+            if (cart.items.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const modal = document.getElementById('checkout-modal');
+            const backdrop = document.querySelector('.modal-backdrop');
+            const summary = document.getElementById('order-summary');
+
+            summary.innerHTML = `
+                <h3>Order Summary</h3>
+                ${cart.items.map(item => `
+                    <div>${item.name} - $${(item.price - item.calculateDiscount()).toFixed(2)}</div>
+                `).join('')}
+                <h4>Total: $${cart.getTotal().toFixed(2)}</h4>
+            `;
+
+            modal.style.display = 'block';
+            backdrop.style.display = 'block';
+        }
+
+        function closeCheckout() {
+            const modal = document.getElementById('checkout-modal');
+            const backdrop = document.querySelector('.modal-backdrop');
+            modal.style.display = 'none';
+            backdrop.style.display = 'none';
+        }
+
+        async function processOrder() {
+            const paymentMethod = document.getElementById('payment-method').value;
+            const order = new Order(customer, [...cart.items], cart.getTotal(), paymentMethod);
+
+            try {
+                await order.processPayment();
+                customer.orders.push(order);
+                cart.items = [];
+                cart.updateCart();
+                closeCheckout();
+                alert('Order placed successfully!');
+            } catch (error) {
+                alert('Payment failed. Please try again.');
+            }
+        }
+
+        // Initial display
+        displayProducts();
+    </script>
+</body>
+</html>
