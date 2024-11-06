@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping System Version Ni Matty</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>Online Shopping System Version 2</h1>
+            <h2>Version 2</h2>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="search-section">
+            <input type="text" id="search-input" placeholder="Search products...">
+            <select id="category-filter">
+                <option value="all">All Categories</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Books">Books</option>
+            </select>
+            <button onclick="filterProducts()">Filter</button>
+        </div>
+
+        <div class="product-grid" id="product-grid"></div>
+
+        <div class="cart-section">
+            <h2>This is the shopping cart</h2>
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
+
+            <div class="button-wrapper">
+                <button onclick="showCheckout()">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-modal">
+        <h2>Checkout</h2>
+        <div id="order-summary"></div>
+        <h3>Payment Method</h3>
+        <select id="payment-method">
+            <option value="credit-card">Credit Card</option>
+            <option value="cash">Cash on Delivery</option>
+        </select>
+        <button onclick="processOrder()">Place Order</button>
+        <button onclick="closeCheckout()">Cancel</button>
+    </div>
+
+    <div class="modal-backdrop" onclick="closeCheckout()"></div>
+
+    <script src="classes.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
