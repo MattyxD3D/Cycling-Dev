@@ -1,11 +1,11 @@
 // Initialize products
 const products = [
-    new Electronics(1, "Smartphone", 699.99, "Electronics", "images/test image.jpg"),
-    new Electronics(2, "Laptop", 999.99, "Electronics", "images/test image.jpg"),
-    new Clothing(3, "T-Shirt", 29.99, "Clothing", "images/test image.jpg"),
-    new Clothing(4, "Jeans", 59.99, "Clothing", "images/test image.jpg"),
-    new Books(5, "Novel", 19.99, "Books", "images/test image.jpg"),
-    new Books(6, "Textbook", 89.99, "Books", "images/test image.jpg")
+    new Electronics(1, "Smartphone", 699.99, "Electronics", "images/Smart Phone.png"),
+    new Electronics(2, "Laptop", 999.99, "Electronics", "images/Laptop.png"),
+    new Clothing(3, "T-Shirt", 29.99, "Clothing", "images/T-shirt.png"),
+    new Clothing(4, "Jeans", 59.99, "Clothing", "images/Jeans.png"),
+    new Books(5, "Novel", 19.99, "Books", "images/Novel.png"),
+    new Books(6, "Textbook", 89.99, "Books", "images/Textbook.png")
 ];
 
 // Initialize cart
