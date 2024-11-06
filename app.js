@@ -69,6 +69,7 @@ function showCheckout() {
         <h3>Order Summary</h3>
         ${cart.items.map(item => `
             <div>${item.name} - $${(item.price - item.calculateDiscount()).toFixed(2)}</div>
+            <div> Test insert </div>
         `).join('')}
         <h4>Total: $${cart.getTotal().toFixed(2)}</h4>
     `;
