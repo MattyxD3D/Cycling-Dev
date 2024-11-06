@@ -36,6 +36,8 @@
             border: 1px solid #ddd;
             padding: 1rem;
             border-radius: 8px;
+            box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.1); /* Add drop shadow */
+
         }
 
         .cart-section {
@@ -104,6 +106,11 @@
             background: rgba(0,0,0,0.5);
             z-index: 999;
         }
+
+
+        .button-wrapper {
+            text-align: right;  /* Aligns the button to the right */
+}
     </style>
 </head>
 <body>
@@ -129,10 +136,13 @@
         <div class="product-grid" id="product-grid"></div>
 
         <div class="cart-section">
-            <h2>Shopping Cart</h2>
+            <h2>This is the shopping cart</h2>
             <div id="cart-items"></div>
             <div id="cart-total"></div>
+
+            <div class = "button-wrapper">
             <button onclick="showCheckout()">Checkout</button>
+        </div>
         </div>
     </div>
 
@@ -153,11 +163,12 @@
     <script>
         // Base Product class ithis is the mand
         class Product {
-            constructor(id, name, price, category) {
+            constructor(id, name, price, category, image) {
                 this.id = id;
                 this.name = name;
                 this.price = price;
                 this.category = category;
+                this.image = image;
             }
 
             calculateDiscount() {
@@ -255,12 +266,12 @@
 
         // Initialize products
         const products = [
-            new Electronics(1, "Smartphone", 699.99, "Electronics"),
-            new Electronics(2, "Laptop", 999.99, "Electronics"),
-            new Clothing(3, "T-Shirt", 29.99, "Clothing"),
-            new Clothing(4, "Jeans", 59.99, "Clothing"),
-            new Books(5, "Novel", 19.99, "Books"),
-            new Books(6, "Textbook", 89.99, "Books")
+            new Electronics(1, "Smartphone", 699.99, "Electronics", "images/test image.jpg"),
+            new Electronics(2, "Laptop", 999.99, "Electronics", "images/test image.jpg"),
+            new Clothing(3, "T-Shirt", 29.99, "Clothing", "images/test image.jpg"),
+            new Clothing(4, "Jeans", 59.99, "Clothing", "images/test image.jpg"),
+            new Books(5, "Novel", 19.99, "Books", "images/test image.jpg"),
+            new Books(6, "Textbook", 89.99, "Books", "images/test image.jpg")
         ];
 
         // Initialize cart
@@ -274,14 +285,18 @@
             const grid = document.getElementById('product-grid');
             grid.innerHTML = productsToShow.map(product => `
                 <div class="product-card">
+                    
+                     <img src="${product.image}" alt="${product.name}" style="width:100%; height:auto; border-radius:8px;">
                     <h3>${product.name}</h3>
                     <p>Category: ${product.category}</p>
                     <p>Price: $${product.price}</p>
                     <p>Discount: $${product.calculateDiscount().toFixed(2)}</p>
                     <p>Final Price: $${(product.price - product.calculateDiscount()).toFixed(2)}</p>
+                    <div class = "button-wrapper">
                     <button onclick="cart.addItem(products.find(p => p.id === ${product.id}))">
                         Add to Cart
                     </button>
+                    </div>
                 </div>
             `).join('');
         }
@@ -309,7 +324,7 @@
         // Checkout functions
         function showCheckout() {
             if (cart.items.length === 0) {
-                alert('Your cart is empty!');
+                alert('Your cart is empty! I add to cart mo na yan');
                 return;
             }
 
