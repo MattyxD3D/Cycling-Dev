@@ -1,3 +1,8 @@
+
+
+
+
+
 // Initialize products
 const products = [
     new Electronics(1, "Smartphone", 699.99, "Electronics", "images/Smart Phone.png"),
@@ -11,7 +16,12 @@ const products = [
 // Initialize cart
 const cart = new Cart();
 
-// Initialize customer (in a real app, this would come from login)
+
+
+const uName = localStorage.getItem('username');
+const pWord = localStorage.getItem('password');
+
+const customer = new Customer(uName, pWord);
 
 // Display products
 function displayProducts(productsToShow = products) {
@@ -68,7 +78,7 @@ function showCheckout() {
         <h3>Order Summary</h3>
         ${cart.items.map(item => `
             <div>${item.name} - $${(item.price - item.calculateDiscount()).toFixed(2)}</div>
-            <div> Test insert </div>
+            
         `).join('')}
         <h4>Total: $${cart.getTotal().toFixed(2)}</h4>
     `;

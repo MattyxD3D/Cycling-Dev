@@ -3,6 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        /* Center the login form on the page */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+        
+        .login-section {
+            width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: white;
+            text-align: center;
+        }
+
+        .login-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .login-section button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-section button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
     <div class="login-section">
         <h2>Login</h2>
         <form id="login-form" onsubmit="return dummyLogin(event);">
@@ -19,45 +85,69 @@
     </div>
     
     <script>
+        class Customer {
 
-class Customer {
-    constructor(name, email) {
-
-
-       this.name = name;
-       this.email = email; 
-    }
-
-
-}
+            #username;
+            #password;
+            constructor(username, password) {
+                this.#username = username;
+                this.#password = password;
+            }
 
 
-function dummyLogin(event) {
-    // Prevent the default form submission
-    event.preventDefault();
-    
-    // Get the values from the input fields
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+            get username(){
+                 return this.#username; 
+                }
 
-    // Store the username in localStorage
-    localStorage.setItem('username', username);
+            set username(newUsername) {
 
-    // Placeholder for login functionality
-    alert("Username: " + username + "\nPassword: " + password);
-
-    // Redirect to index.html after login
-    window.location.href = "index.html";
-
-    return false; // Prevent actual form submission
-}
+                this.#username = newUsername;
+            }    
 
 
+            get password(){
+                 return this.#password; 
+                }
 
+            set password(newPassword) {
+
+                this.#password = newPassword;
+            }    
+        }
+
+        
+
+        function dummyLogin(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+            
+            // Get the values from the input fields
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const customer = new Customer(username, password);
+
+
+            customer.username = username;
+            customer.password = password;
+            // Store the username in localStorage
+            localStorage.setItem('username', customer.username);
+            localStorage.setItem('password', customer.password);
+           
+            // Placeholder for login functionality
+            alert("Username: " + username + "\nPassword: " + password);
+
+            // Redirect to index.html after login
+
+            setTimeout(() =>{
+
+                window.location.href = "index.html";
+
+            },100);
+         
+
+            return false; // Prevent actual form submission
+        }
     </script>
-
-</head>
-<body>
-    
 </body>
 </html>
