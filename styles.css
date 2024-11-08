@@ -26,7 +26,7 @@
 }
 
 .product-card {
-    border: 1px solid #ddd;
+    border: 1px solid #ffffff;
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.1);
@@ -36,7 +36,7 @@
     position: fixed;
     right: 20px;
     top: 20px;
-    background: white;
+    background: rgb(255, 255, 255);
     padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -48,7 +48,7 @@
 }
 
 button {
-    background: #007bff;
+    background: #ff3c00;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -72,7 +72,7 @@ input, select {
     justify-content: space-between;
     margin-bottom: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #ff0000;
 }
 
 #checkout-modal {

@@ -12,7 +12,6 @@ const products = [
 const cart = new Cart();
 
 // Initialize customer (in a real app, this would come from login)
-const customer = new Customer("John Doe", "john@example.com");
 
 // Display products
 function displayProducts(productsToShow = products) {
@@ -103,3 +102,5 @@ async function processOrder() {
 
 // Initial display
 displayProducts();
+
+

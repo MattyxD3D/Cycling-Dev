@@ -9,8 +9,8 @@
 <body>
     <div class="header">
         <div class="container">
-            <h1>Online Shopping System Version 2</h1>
-            <h2>Version 2</h2>
+            <h1>Basic Online Shopping Platform</h1>
+            <h2>Welcome, <span id = "usernameDisplay"></span> !</h2>
         </div>
     </div>
 
@@ -55,5 +55,20 @@
 
     <script src="classes.js"></script>
     <script src="app.js"></script>
+    <script>
+
+        const username = localStorage.getItem('username');
+
+        if (username) {
+
+            document.getElementById('usernameDisplay').textContent = username;
+            
+        }
+        else {
+
+            document.getElementById('usernameDisplay').textContent = 'Guest';
+        }
+    </script>
+
 </body>
 </html>
