@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <div class="login-section">
         <h2>Login</h2>
-        <form id="login-form" onsubmit="return dummyLogin();">
+        <form id="login-form" onsubmit="return dummyLogin(event);">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" placeholder="Enter your username" required>
@@ -32,7 +32,7 @@ class Customer {
 }
 
 
-    function dummyLogin() {
+function dummyLogin(event) {
     // Prevent the default form submission
     event.preventDefault();
     
@@ -40,17 +40,18 @@ class Customer {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
+    // Store the username in localStorage
+    localStorage.setItem('username', username);
 
-    const customer = new Customer(username, password);
     // Placeholder for login functionality
-   
-    window.location.href = "index.html";
-    
-    // Optionally, you can clear the input fields after the alert
+    alert("Username: " + username + "\nPassword: " + password);
 
-    
+    // Redirect to index.html after login
+    window.location.href = "index.html";
+
     return false; // Prevent actual form submission
 }
+
 
 
     </script>
