@@ -1,8 +1,4 @@
 
-
-
-
-
 // Initialize products
 const products = [
     new Electronics(1, "Smartphone", 699.99, "Electronics", "images/Smart Phone.png"),
@@ -15,8 +11,6 @@ const products = [
 
 // Initialize cart
 const cart = new Cart();
-
-
 
 const uName = localStorage.getItem('username');
 const pWord = localStorage.getItem('password');
