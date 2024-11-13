@@ -40,9 +40,13 @@
             <option value="credit-card">Credit Card</option>
             <option value="cash">Cash on Delivery</option>
         </select>
+
         <button onclick="processOrder()">Place Order</button>
         <button onclick="closeCheckout()">Cancel</button>
     </div>
+
+
+    
 
     <!-- Credit Card Modal -->
     <div id="overlay"></div>
@@ -59,6 +63,8 @@
             <button type="button" onclick="closeCardModal()">Close</button>
         </form>
     </div>
+
+
 
     <script>
         function processOrder() {

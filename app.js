@@ -105,6 +105,13 @@ async function processOrder() {
 }
 
 // Initial display
+
+
+
+
+
+
+
 displayProducts();
 
 

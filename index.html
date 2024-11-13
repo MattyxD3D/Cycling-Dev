@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shopping System Version Ni Matty</title>
+    <title>Online Shopping System Version Ni Matty</title> 
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,18 +17,24 @@
     </div>
 
     <div class="container">
+
         <div class="search-section">
+
             <input type="text" id="search-input" placeholder="Search products...">
+
             <select id="category-filter">
                 <option value="all">All Categories</option>
                 <option value="Electronics">Electronics</option>
                 <option value="Clothing">Clothing</option>
                 <option value="Books">Books</option>
             </select>
+
             <button onclick="filterProducts()">Filter</button>
+
         </div>
 
-        <div class="product-grid" id="product-grid"></div>
+        <div class="product-grid" id="product-grid">  </div>
+
 
         <div class="cart-section">
             <h2>Your Cart</h2>
@@ -38,6 +44,8 @@
                 <button onclick="showCheckout()">Checkout</button>
             </div>
         </div>
+
+        
     </div>
 
     <div id="checkout-modal">
@@ -56,6 +64,27 @@
 
     <div class="modal-backdrop" onclick="closeCheckout()"></div>
 
+<!-- 
+    Credit card modal -->
+    <div id="overlay"></div>
+    <div id="credit-card-modal">
+        <h2>Enter Credit Card Details</h2>
+        <form>
+            <label for="card-number">Card Number:</label><br>
+            <input type="text" id="card-number" placeholder="XXXX-XXXX-XXXX-XXXX"><br><br>
+            <label for="expiry-date">Expiry Date:</label><br>
+            <input type="text" id="expiry-date" placeholder="MM/YY"><br><br>
+            <label for="cvv">CVV:</label><br>
+            <input type="text" id="cvv" placeholder="XXX"><br><br>
+            <button type="button" onclick="submitCardDetails()">Submit</button>
+            <button type="button" onclick="closeCardModal()">Close</button>
+        </form>
+    </div>
+
+
+
+
+
     <script src="classes.js"></script>
     <script src="app.js"></script>
     <script>
@@ -72,10 +101,48 @@
 
             document.getElementById('usernameDisplay').textContent = 'Guest';
         }
+
+
+
+
+        
     </script>
 
 
+<script>
+    function processOrder() {
+        const paymentMethod = document.getElementById('payment-method').value;
+        if (paymentMethod === 'credit-card') {
+            showCardModal();
+        } else if (paymentMethod === 'cash') {
+            alert('Order placed with Cash on Delivery');
+            closeCheckout(); // Optionally close the checkout modal after placing the order
+        } else {
+            alert('Please choose a payment method');
+        }
+    }
 
+    function showCardModal() {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('credit-card-modal').style.display = 'block';
+    }
+
+    function closeCardModal() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('credit-card-modal').style.display = 'none';
+    }
+
+    function submitCardDetails() {
+        alert('Credit card details submitted successfully');
+        closeCardModal();
+        // Additional logic to process the payment can be added here
+    }
+
+    function closeCheckout() {
+        alert('Checkout canceled');
+        // Logic to close or hide the main checkout modal
+    }
+</script>
 
 
 </body>
